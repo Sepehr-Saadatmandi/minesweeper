@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mine Sweeper</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Counter,Timer,Button -->
+    <div class="grid-container-1">
+      <button class="btn-newgame">♻ Newgame</button>
+      <div class="timer">⏲ : <span class="time-counter">0</span></div>
+      <div class="mine-counter">💣 : <span class="mine">100</span></div>
+    </div>
+    <!-- Board -->
+    <div id="board-container"></div>
+    <!-- Initial Window -->
+    <div class="overlay"></div>
+    <div class="init-window grid-container-2">
+      <div class="grid-item">
+        <label>Height (Between 10 & 30)</label>
+        <input
+          type="number"
+          class="inputs width"
+          type="number"
+          value="10"
+          max="30"
+          min="10"
+        />
+      </div>
+      <div class="grid-item">
+        <label>Width (Between 10 & 30)</label>
+        <input
+          type="number"
+          class="inputs height"
+          type="number"
+          value="10"
+          max="30"
+          min="10"
+        />
+      </div>
+      <div class="grid-item">
+        <label>Mines : Between 10% and 60%</label>
+        <input
+          type="number"
+          class="inputs mine-percent"
+          type="number"
+          value="15"
+          max="60"
+          min="10"
+        />
+      </div>
+      <button class="grid-item btn-play">Let's Play!</button>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

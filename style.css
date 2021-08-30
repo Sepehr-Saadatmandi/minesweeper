@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Goldman&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-family: "Goldman", cursive;
+}
+
+body {
+  background-color: rgb(74, 163, 129);
+}
+
+/* Counter,Timer,Button */
+
+.grid-container-1 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  padding: 30px 600px;
+}
+
+.btn-newgame {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  padding: 15px 0;
+  font-size: large;
+  background-color: rgb(7, 37, 26);
+  border-radius: 50px;
+  color: rgb(218, 218, 218);
+}
+
+/* Initial Window */
+
+.grid-container-2 {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 50px;
+  padding: 70px 30px;
+}
+
+.init-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 300px;
+  width: 800px;
+  z-index: 2;
+  border-radius: 50px;
+  box-shadow: 3px 3px 30px rgb(0, 0, 0);
+  background: linear-gradient(to top left, #214f5e, #2d7a85);
+}
+
+.hidden {
+  display: none;
+}
+
+.grid-item {
+  border-radius: 50px;
+  box-shadow: 3px 3px 30px rgb(15, 51, 30);
+  font-size: large;
+  height: 60px;
+  width: 340px;
+  background-color: rgb(151, 214, 143);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+  margin-top: 5px;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.315);
+  backdrop-filter: blur(10px);
+}
+
+.btn-play {
+  background-color: rgb(151, 214, 143);
+  border: none;
+}
+
+.btn-play:hover {
+  background-color: rgb(151, 214, 143);
+  box-shadow: 3px 3px 50px black;
+}
+
+.inputs {
+  padding: 5px;
+  margin-left: 25px;
+  width: 16%;
+  background-color: rgb(151, 214, 143);
+  border: none;
+  font-size: large;
+}
+
+.inputs:focus-visible,
+.inputs:hover {
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+/* Board */
+
+#board-container {
+  display: grid;
+  grid-gap: none;
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+}
+
+.board-grid-item {
+  padding: 10px 0;
+  border: 1px solid rgb(0, 0, 0);
+  text-align: center;
+  font-size: 15px;
+  background-color: #2d7a85;
+}
+
+.white-background {
+  background-color: #214f5e;
+
+  color: white;
+}
+
+.game-over {
+  background-color: tomato;
+}
