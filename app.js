@@ -1,5 +1,5 @@
 'use strict'
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // Variables
 let mineNumber = 0;
 let widthHeight = [];
@@ -7,7 +7,7 @@ let cellsArray = [];
 let mineLocation = [];
 let aroundCells = []
 let cleanAroundCells = []
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // Set width , height & number of mines and Let's Play!
 document.querySelector('.btn-play').addEventListener('click', function () {
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ document.querySelector('.btn-play').addEventListener('click', function () {
     // change value of mine cells
     for (let i = 0; i < mineLocation.length; i++) {
         let val = document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).value = -1;
-        // document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).textContent = '💣';
+        document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).textContent = '💣';
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
     //Increase Around cells by 1 (with for loop)
@@ -117,15 +117,18 @@ document.querySelector('.btn-play').addEventListener('click', function () {
             }
             // click the mine
             if (item.value == -1 & item.textContent != '🚩') {
-                // stop timer
-                // turn color into red
-                // click is unavailable
+
+                document.querySelector('.loose-screen').classList.remove('hidden');
+
                 document.querySelector('body').classList.add('game-over');
                 for (let i = 0; i < mineLocation.length; i++) {
                     document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).textContent = '💣';
                 }
+                document.querySelector('.time-counter').textContent = time1;
+                stopTimer()
+
             }
-            // click on number holder
+            // click on number
             if (item.value >= 1 && item.textContent != '🚩') {
                 this.textContent = this.value
                 this.classList.add('white-background')
@@ -137,11 +140,9 @@ document.querySelector('.btn-play').addEventListener('click', function () {
 
                 let strRow = item.classList[1];
                 strRow = strRow.substring(strRow.indexOf('w') + 1, strRow.indexOf('C'))
-                console.log(strRow)
 
                 let strCol = item.classList[1];
                 strCol = strCol.substring(strCol.indexOf('l') + 1)
-                console.log(strCol)
 
                 let row = Number(strRow);
                 let cal = Number(strCol);
@@ -149,12 +150,47 @@ document.querySelector('.btn-play').addEventListener('click', function () {
 
                 emptySpace(row, cal)
             }
+
+            //Win the game
+
+            let playedCells = [];
+            for (let i = 0; i < cellsArray.length; i++) {
+                if (document.querySelector(`.row${cellsArray[i][0]}Col${cellsArray[i][1]}`).textContent > 0 ||
+                    document.querySelector(`.row${cellsArray[i][0]}Col${cellsArray[i][1]}`).textContent == '') {
+                    playedCells.push(document.querySelector(`.row${cellsArray[i][0]}Col${cellsArray[i][1]}`).value)
+                }
+            }
+
+            if (playedCells.length == cellsArray.length - mineLocation.length) {
+                winner()
+            }
         })
     })
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // Start the timer
+    startTimer();
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // Click on looose screen
+    document.querySelector('.loose-screen').addEventListener('click', function () {
+        for (let i = 0; i < cellsArray.length; i++) {
+            document.querySelector('.board-grid-item').remove();
+        }
+        mineNumber = 0;
+        cellsArray.length = 0;
+        widthHeight.length = 0;
+        mineLocation.length = 0;
+        aroundCells.length = 0;
+        cleanAroundCells.length = 0;
+        stopTimer();
 
-    
+        document.querySelector('.overlay').classList.remove('hidden');
+        document.querySelector('.init-window').classList.remove('hidden');
+        document.querySelector('body').classList.remove('game-over');
+        document.querySelector('.loose-screen').classList.add('hidden');
+    })
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
 });
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // Generate board (2D Array)
 const container = document.getElementById("board-container");
 function makeGrid(rows, cols) {
@@ -173,7 +209,7 @@ function makeGrid(rows, cols) {
         };
     };
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // Generate an Array for Mines location! (2D Array)
 function makeMinesArray(mNumber) {
     let indexNumber = [];
@@ -190,7 +226,7 @@ function makeMinesArray(mNumber) {
     }
     mineLocation.sort()
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // empty space recuirsive 
 let rcsv = []
 function emptySpace(r, c) {
@@ -200,6 +236,7 @@ function emptySpace(r, c) {
             if (document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).value > 0) {
                 document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).textContent = document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).value;
                 document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).classList.add('white-background')
+                // document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).value = 10;
             }
             else if (document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).value == 0 && document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).textContent == '♠') {
                 let rcsv = []
@@ -213,9 +250,44 @@ function emptySpace(r, c) {
         }
     }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // New Game Button
-document.querySelector('.btn-newgame').addEventListener('click', function () {
+document.querySelector('.btn-newgame').addEventListener('click', newGame)
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Functions to starting and stopimg timer
+let timer;
+let time1;
+let Score;
+function startTimer() {
+    time1 = 1;
+
+    if (timer) {
+        stopTimer();
+    };
+    timer = setInterval(function () {
+        document.querySelector('.time-counter').textContent = time1;
+        time1++;
+    },
+        1000
+    );
+}
+function stopTimer() {
+    clearInterval(timer);
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Winnig
+function winner() {
+    alert('You Win!!!')
+    let recorder = prompt('Enter Your Name: ')
+
+    stopTimer()
+    alert('You can see records on Local Storage')
+    newGame()
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// WNew Game function
+function newGame() {
     for (let i = 0; i < cellsArray.length; i++) {
         document.querySelector('.board-grid-item').remove();
     }
@@ -225,17 +297,9 @@ document.querySelector('.btn-newgame').addEventListener('click', function () {
     mineLocation.length = 0;
     aroundCells.length = 0;
     cleanAroundCells.length = 0;
-    // Reset timer
+    stopTimer();
 
     document.querySelector('.overlay').classList.remove('hidden');
     document.querySelector('.init-window').classList.remove('hidden');
     document.querySelector('body').classList.remove('game-over');
-})
-
-// Newgame Button
-
-// Set Timer
-
-//🚩
-
-
+}
