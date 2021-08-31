@@ -7,6 +7,9 @@
 
 body {
   background-color: rgb(74, 163, 129);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Counter,Timer,Button */
@@ -26,6 +29,8 @@ body {
   background-color: rgb(7, 37, 26);
   border-radius: 50px;
   color: rgb(218, 218, 218);
+  cursor: pointer;
+  width: 300px;
 }
 
 /* Initial Window */
@@ -85,6 +90,7 @@ label {
 .btn-play {
   background-color: rgb(151, 214, 143);
   border: none;
+  cursor: pointer;
 }
 
 .btn-play:hover {
@@ -111,13 +117,15 @@ label {
 /* Board */
 
 #board-container {
+  max-width: fit-content;
   display: grid;
-  grid-gap: none;
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
 }
 
 .board-grid-item {
+  width: 40px;
+  height: 40px;
   padding: 10px 0;
   border: 1px solid rgb(0, 0, 0);
   text-align: center;

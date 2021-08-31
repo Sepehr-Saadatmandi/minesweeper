@@ -54,8 +54,8 @@ document.querySelector('.btn-play').addEventListener('click', function () {
     //////////////////////////////////////////////////////////////////////////////////////////////
     // change value of mine cells
     for (let i = 0; i < mineLocation.length; i++) {
-        let val = document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).value = -1;
-        document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).textContent = '💣';
+        document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).value = -1;
+        // document.querySelector(`.row${mineLocation[i][0]}Col${mineLocation[i][1]}`).textContent = '💣';
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
     //Increase Around cells by 1 (with for loop)
@@ -81,22 +81,22 @@ document.querySelector('.btn-play').addEventListener('click', function () {
     document.querySelectorAll('.board-grid-item').forEach(item => {
         item.addEventListener('contextmenu', function (e) {
             e.preventDefault();
-            if (item.textContent != "♠" || item.textContent != "🚩") {
+            if (item.textContent != " " || item.textContent != "🚩") {
                 item.textContent += ""
             }
 
             if (item.textContent == '🚩') {
-                item.textContent = '♠';
+                item.textContent = ' ';
                 document.querySelector('.mine').textContent = (document.querySelector('.mine').textContent) * 1 + 1;
             }
-            else if (item.textContent == '♠') {
+            else if (item.textContent == ' ') {
                 item.textContent = '🚩'
                 document.querySelector('.mine').textContent -= 1;
             };
 
             if (document.querySelector('.mine').textContent == -1) {
                 if (item.textContent == '🚩') {
-                    item.textContent = '♠';
+                    item.textContent = ' ';
                     document.querySelector('.mine').textContent = (document.querySelector('.mine').textContent) * 1 + 1;
                 }
                 else {
@@ -202,7 +202,7 @@ function makeGrid(rows, cols) {
         for (let j = 0; j < (cols); j++) {
             cellsArray.push([i, j]);
             let cell = document.createElement("div");
-            cell.innerText = "♠";
+            cell.innerText = " ";
             container.appendChild(cell).className = 'board-grid-item';
             cell.value = 0;
             cell.classList.add(`row${i}Col${j}`)
@@ -238,7 +238,7 @@ function emptySpace(r, c) {
                 document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).classList.add('white-background')
                 // document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).value = 10;
             }
-            else if (document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).value == 0 && document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).textContent == '♠') {
+            else if (document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).value == 0 && document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).textContent == ' ') {
                 let rcsv = []
                 rcsv.push(around[j]);
                 document.querySelector(`.row${around[j][0]}Col${around[j][1]}`).classList.add('white-background')
@@ -280,13 +280,13 @@ function stopTimer() {
 function winner() {
     alert('You Win!!!')
     let recorder = prompt('Enter Your Name: ')
-
+    localStorage.setItem(recorder, time1);
     stopTimer()
     alert('You can see records on Local Storage')
     newGame()
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// WNew Game function
+// New Game function
 function newGame() {
     for (let i = 0; i < cellsArray.length; i++) {
         document.querySelector('.board-grid-item').remove();
@@ -303,3 +303,4 @@ function newGame() {
     document.querySelector('.init-window').classList.remove('hidden');
     document.querySelector('body').classList.remove('game-over');
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////
